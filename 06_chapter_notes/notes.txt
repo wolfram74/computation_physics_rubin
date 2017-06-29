@@ -1,0 +1,59 @@
+chapter 06: Matrix Computing () 117
+06.1: problem3: N-D newton Raphson; Two Masses on a string----- p117
+06.2: Why Matrix Computing? ----- p122
+06.3: Classes of matrix problems ----- p122
+06.4: Python Lists as arrays ----- p126
+06.5: Numerical Python (numpy) arrays----- p127
+06.6: Exercise Testing matrix programs----- p134
+
+chapter 06: Matrix Computing () 117
+brief discussion on the importance of familiarizing with standard linalg libraries
+
+06.1: problem3: N-D newton Raphson; Two Masses on a string----- p117
+2 weights are attached to a bar by strings
+finding the tensions and positions is presented as the problem, analytic approach impractical
+6.1.1 statics
+  5 equations are produced to encapsulate the geometric constraints
+  4 more equations produced to indicate equilibrium
+6.1.2 multi-dimensional searching
+  result is 9 simultaneous non-linear equations
+  a rough over view of a search algorithm is discussed
+  current guess is made, some correction is needed to solve
+  system is linearized and a correction calculated by the typical methods for linear systems
+
+06.2: Why Matrix Computing? ----- p122
+  lots of physics looks like matrix solutions, computers are good at them
+  encouraging you to use standard libraries again
+
+06.3: Classes of matrix problems ----- p122
+  overdetermined and underdetermined work arounds discussed
+  basic inverse problem described
+  a few methods for solving are enumerated
+  Eigen value problem described
+  6.3.1 practical considerations
+  memory constraints
+  processing constraints
+  paging (subset of memory constraints)
+  matrix memory formatting
+    row vs column storage, considerations with stride length
+  0 indexing
+06.4: Python Lists as arrays ----- p126
+  brief introduction of lists
+  distinction between list and tuple
+  some built in functions overviewed
+
+06.5: Numerical Python (numpy) arrays----- p127
+  an example of using numpy arrays to do vector addition and element wise multiplication
+  distinction between shape, dimension and size
+  dimension I would consider more akin to the rank of a tensor, than dimension
+  size denotes how many elements
+  a few class methods made reference to
+  6.5.1 numpy linalg
+  an example of using the numpy matrix solver
+  a second less efficient, but more readable method is described
+  an example of doing eigen value problems worked through
+
+
+06.6: Exercise Testing matrix programs----- p134
+  exercises described and worked in library_tests.py
+

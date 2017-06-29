@@ -1,0 +1,37 @@
+chapter 02: Computing software basics (33)
+02.1: Making computers Obey ----- 33
+02.2: Programming warmup ----- 35
+02.3: Python I/O ----- 39
+02.4: Computer Number Representations ----- 40
+02.5: Problem: summing series ----- 51
+
+02.1: Making computers Obey ----- 33
+  The old chestnut, computes do as told
+  emphasizing the abstraction between us and the machine
+  description of shell
+  description of the operating system
+02.2: Programming warmup ----- 35
+  walking through making a circle area calculator
+  some guidelines for good programming laid down
+  advocacy of flow charts and pseudo code
+  2.2.2 describes some things to try with very basic python program
+  and build on it until it approximates a decent workflow
+02.3: Python I/O ----- 39
+  some methods for doing input and out discussed
+  some detailed string formatting is mentioned
+  description of reserved characters/directives
+02.4: Computer Number Representations ----- 40
+  some discussion of binary, and integer formats
+  accuracy constraints of fixed point vs floating point
+  discussion of IEEE standard and a number of particulars of floating point
+  double floats are more than twice as precise at a given exponent than single floats
+  punchline: single floats are accurate to 1E-6 roughly, doubles to ~1E-16
+  2.4.3 2 exercises to play with floating point precision
+  2.4.4
+    concrete example of machine precision limitations
+    exercise to determine experimentally the machine precision
+
+02.5: Problem: summing series ----- 51
+  numerical expression for sin is ruminated on
+  naive approach criticized, better iterative approach displayed
+

@@ -1,0 +1,134 @@
+chapter 05: Differentiation and Integration p85
+05.1: Differentiation ----- 85
+05.2: Forward Difference -----86
+05.3: Central Difference ----- 87
+05.4: Extrapolated Difference ----- 87
+05.5: Error Assessment ----- 88
+05.6: Second Derivatives (problem) ----- 90
+05.7: Integration ----- 91
+05.8: Quadrature as box counting (math) ----- 91
+05.9: Algorithm Trapezoid Rule ----- 93
+05.10: Algorithm Simpson's Rule ----- 94
+05.11: Integration Error Assessment ----- 96
+05.12: Algorithm: Guassian Quadrature ----- 97
+05.13: Higher Order Rules ----- 103
+05.14: Monte Carlo Integration By Stone Throwing (problem) ----- 104
+05.15: Mean Value Integration (Theory and math) ----- 105
+05.16: Integration Exercises ----- 106
+05.17: Multi Dimensional Monte Carlo Integration ----- 108
+05.18: Integrating Rapidly Varying Functions (problem) ----- 110
+05.19: Variance Reduction (method) ----- 110
+05.20: Importance Sampling ----- 111
+05.21: Von Neumann Rejection (method) ----- 111
+05.22: Non Uniform Assessment ----- 113
+
+chapter 05: Differentiation and Integration p85
+  differentiation, leads to deterministic integration wrapping with monte carlo
+
+05.1: Differentiation ----- 85
+the premise of finite differentiation and it's short comings briefly described
+eq 5.1 basic limit definition of a derivative
+
+05.2: Forward Difference -----86
+forward difference derived from taylor expansion
+errors linear in step size
+a worked example for quadratic shown
+
+05.3: Central Difference ----- 87
+central difference method derived, 2nd order error established
+
+05.4: Extrapolated Difference ----- 87
+further refinements described for a 4th order error technique
+
+05.5: Error Assessment ----- 88
+revisiting heuristic for minimizing error
+exploring what good resolution is for forward and central difference techniques are
+
+05.6: Second Derivatives (problem) ----- 90
+acceleration as a context where 2nd derivatives matter
+eq 5.23 as a method of extending central difference to 2nd derivatives
+exercise described in derivatives.py
+
+05.7: Integration ----- 91
+a problem statement providing context for numerical integrations. particle rate for an interval is posited, wanting to get total particle count for a specific interval is posited
+
+05.8: Quadrature as box counting (math) ----- 91
+simple sums and complex sums alike both referred to as quadrature
+comparison between riemannian definition and numerical approach elaborated on
+lack of universal approach stated
+dealing with singularities: get rid of them
+something like nyquist frequency mentioned with regards to rapidly varying regions
+
+
+05.9: Algorithm Trapezoid Rule ----- 93
+breaks the curve into a finite number of trapezoids, uses area of that to sum over
+solves the integral over a shorter interval and then repeats process over whole interval
+
+
+05.10: Algorithm Simpson's Rule ----- 94
+approximates each region as a quadratic
+deriving how to find coefficients is shown
+eq 5.40 describes the result
+
+05.11: Integration Error Assessment ----- 96
+taylor series approaches for determining error skimmed over
+method complication is associated with faster convergence
+typical approach to modeling round off and total error taken
+punchline, getting within machine precision is possible, larger N leads to more rounding errors
+
+05.12: Algorithm: Guassian Quadrature ----- 97
+exact solutions to odd power polynomials alluded to by implementing a weighting function as opposed to a constant
+a few different weight functions described in table 5.2
+5.12.1
+  mapping integration points
+  normally integral goes from a to b, now must be remapped to -1 to 1
+  a collection of possible mappings described
+5.12.2 gaussian points derivation
+  with N points a polynomial order 2n-1 or lower can be integrated
+  aside: since finite polynomials are pretty easy to integrate analytically, some thought must be dedicated to /why/ you would do it numerically.
+  specific values and weights are needed, so applicability in measurements may be constrained
+  orthonormality of legendre polynomials referenced
+5.12.3 problems
+  integration problems described in integration.py
+
+05.13: Higher Order Rules ----- 103
+a simple method for canceling leading error term is demonstrated
+
+
+05.14: Monte Carlo Integration By Stone Throwing (problem) ----- 104
+monte carlo methods outlined in the context of measuring pond area
+suggested problem described in monte_carlo.py
+
+05.15: Mean Value Integration (Theory and math) ----- 105
+the monte carlo sampling is linked to mean value theorem and re-cast as an integration with arbitrary spacing of samples
+
+05.16: Integration Exercises ----- 106
+6 problems described in integration.py
+
+05.17: Multi Dimensional Monte Carlo Integration ----- 108
+calculation time is proportional to N^D where D is dimension of integral
+precision goes down for quadrature methods, but remains stable for montecarlo methods
+
+
+05.18: Integrating Rapidly Varying Functions (problem) ----- 110
+how do you use monte carlo methods on functions that have steep gradients efficiently?
+
+05.19: Variance Reduction (method) ----- 110
+if most of the space doesn't contribute much to the integral, then checking there wastes time.
+mapping to a function with less variance improves efficiency
+first method is to construct a difference of the two functions and integrate over that
+
+05.20: Importance Sampling ----- 111
+using the function to also to guide which regions to sample from allows you to weight samples appropriately and reduce computation time
+
+05.21: Von Neumann Rejection (method) ----- 111
+a description for using the function to determine what the weighting function should be is elaborated on
+an assertion about Gaussian distributions is made
+
+05.22: Non Uniform Assessment ----- 113
+von neumanna rejection vs gaussian method (?) to make normal distribution
+properties for a proper weighting function described
+eq 5.93 recast as eq5.100
+
+
+

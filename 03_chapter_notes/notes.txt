@@ -1,0 +1,58 @@
+chapter 03: Errors and uncertainties ( 53)
+03.1: Types of errors ----- 53
+03.2: Error in Bessel functions ----- 58
+03.3: Experimental Error Investigation ----- 62
+
+03.1: Types of errors ----- 53
+  intro makes a warning about how error tracking is tedious but necessary
+  brief example of how tiny errors compound over relatively few steps
+  error categories:
+    fundamental misunderstanding
+    random errors in machine level fluctuations
+    approximation error from finite representation of infinite sums
+    rounding errors contributed from floating point arithmetic
+  worst case scenario, subtraction of comparable numbers
+  p 3.1.2 subtractive cancelation exercise
+    2 approaches to quadratic equation shown
+    dangerzone described
+      a: implement quadratic equation solver
+      b: investigate error situations
+      c: extend program to highlight reliable roots
+    oscilating series described S1
+    method for minimizing subtractions shown S2
+    method for eliminating substractions altogether shown S3
+      a: implement all 3 sums
+      b: treating S3 as the exact answer, do loglog plots of relative error
+      c: inspect for power laws
+    addition is not commutative :/
+      a: implement up sum and down sum
+      b: plot log log (su-sd)/(su + sd)
+      c: observations
+  3.1.3 round off errors
+    division errors are linearly additive
+    basic uncorrelated error propogation is asserted to work
+  error accumulation
+    random walk argument, warnings of constructive interference in errors
+03.2: Error in Bessel functions ----- 58
+  spherical bessel functions defined
+  some analytic uses described
+  a recursion relation is provided
+  doing the reverse recurrence relation seems like begging the question a little...
+  1: implement both methods and get values for l 0 to 25 at .1, 1 10
+  2: get at least one method to have errors less than 10^-10
+  3: show convergence and stability of results, some how
+  4: compare relative difference
+  5: discuss error as a function of x
+03.3: Experimental Error Investigation ----- 62
+  salient questions about quality of a numerical method
+    convergence, precision, efficiency
+  expressions for systemic and rounding error described
+    a/n**b vs c*n**.5
+  a heuristic about the transition between which dominates described
+  a comparison approach
+  an example comparing the  convergence rate of 2 toy models and finding ideal step amount
+  revisiting sin function
+    take implementation and compare with library implementation
+    but generate terms and not necessarily sum immediately
+    reproduce graph 3.4  comparing errors with term count
+

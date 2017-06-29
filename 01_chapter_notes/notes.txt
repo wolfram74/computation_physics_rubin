@@ -1,0 +1,98 @@
+chapter 01: Introduction (pg 1)
+01.1: computational physics and computational science ----- 1
+01.2: Books subjects ----- 3
+01.3: Books problems ----- 4
+01.4: Books language ----- 8
+  python packages
+  Book's packages
+  python distributions
+01.5:  visualization tools ----- 13
+  vpython 2d plots
+  vpythong animation
+  ...
+01.6: plotting exercises ----- 30
+01.7: python's algebraic tools ----- 31
+
+
+01.1: computational physics and computational science ----- 1
+  longish distinction between computer science (CS), computational physics (CP)
+01.2: Books subjects ----- 3
+  touches on hardware a bit, basics of python
+  most of the physics is in the back 2/3
+  linear algebra, fourier transforms, wavelets
+  SVD, PCD, fluid and soliton dynamics
+  dotted O is optional
+  table 1.1 and 1.2 describes rough course of events
+01.3: Books problems ----- 4
+  recommended 6 sections for report style solutions
+    equations solved
+    numerical method used
+    source code
+    visualiztion
+    discussion
+    critique
+  codes for problem labels
+    QM, CM, NL, EM, FD, SP, MM, CS, Th, BI
+    NL= nonlinear, SP= statistical physics, FD=fluid dynamics, BI=biology, Th=thermal
+  lengthy table clustering problems based on type
+01.4: Books language ----- 8
+  argument for why python is best for pedagogy
+  a number of secondary references recommended for learning basics
+  python packages
+    discussion of a package, how one might use packages
+    some shell examples
+  Book's packages
+    boost.python: python-c interoperability
+    cython
+    f2py
+    ipython
+    matplotlib
+    mayavi simple 3d graphics
+    mpmath: multiprecision floating point
+    numpy
+    pandas
+    PIL
+    standard python library
+    pyVISA: controlling measurement through busses from within python
+    sciKits: scipy extensions to a couple specialities
+    scipy: extends numpy for a couple of science oriented capacities
+    sphinx: python documentation generator
+    SWIG: interface compiler to connect compiled languages with scripted languages
+    syFi: symbolic finite elements analysis of PDEs
+    sympy
+    VisIt: visualization tool for 2d and 3d meshes
+    Visual: another visualization package
+  python distributions
+    clusters of modules pre-packaged
+    anaconda
+    enthought canopy
+    python XY
+    sage
+01.5:  visualization tools ----- 13
+  discussion on the importance of clean data visualization
+  listing 1.1 EasyVisual.py
+    an example of a decaying cosine and a scattered cosine
+    figure 1.2
+  vpython 2d plots
+    description of listing1.1 code
+    various options set and the likes
+  listing 1.2 produces figure 1.3a
+  listing 1.3 produces figure 1.4
+  harmosAnimate produces figure 1.3b
+  listing 1.4 produces figure 1.5a
+  listing 1.5 produces figure 1.5b featuring error bars
+  listing 1.6 produces figure 1.6 featuring subplots
+  listing 1.7 produces figure 5.5 featuring scatter plots
+  brief discussion about 3d plotting
+  listing 1.8 produces figure 1.7 featuring 3d plot, probably better off as a heatmap
+  listing 1.9 produces figure 1.8 featuring 3d scatter plot
+  discussion about mayavi plotting techniques work and an example
+01.6: plotting exercises ----- 30
+  reccomended plotting exercises
+01.7: python's algebraic tools ----- 31
+  discussion of sympy vs sage
+  some examples of sympy usage
+
+
+problems
+01.00, 01.00, 01.00, [,,]

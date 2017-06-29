@@ -1,0 +1,54 @@
+chapter 04: monte carlo: Randomness, walks and decays p69
+04.1: deterministic randomness ----- p69
+04.2: random sequences ----- p69
+04.3: random walks (problem) ----- p75
+04.4: extension: protein folding and self-avoiding random walks----- p79
+04.5: spontaneous decay (problem) ----- p80
+04.6: decay implementation and visualization ----- p84
+
+04.1: deterministic randomness ----- p69
+  Programs make use of stochastic seeming processes
+04.2: random sequences ----- p69
+  definitions provided for random sequence and uniformity
+  probability distributions alluded to
+  mechanisms for letting nature generate random numbers are described
+  4.2.1 modulus random generation (power residue)
+    r_i+1 = (ar_i + c)%M
+    example calculation run through
+    an illustration of correlated and less correlated data points
+    some discussion of scale of cycles
+  4.2.2 power residue shortcomings (exercise)
+  4.2.3 measuring correlation and uniformity
+    measuring these things is important if they are assumed to be true
+    checks include
+    1: looking at them
+    2: plotting vs number count
+    3: calculating the kth moment of the distribution to test uniformity
+      involves k sums over N followed by goodness of fit to curve
+    4: near neighbor correlation
+      involves 1 sum over N followed by goodness of fit to constant
+    5: scatter plot and visual inspection
+    exercise, do kth moment comparison for 1,3 and 7 with N = 1E2, 1E4, 1E5
+04.3: random walks (problem) ----- p75
+  calculating collisions as a function of distance for brownian motion
+  4.3.1 random walk simulation
+  simple assumptions can lead to different kinds of diffusion
+  brownian motion, normal diffusion, abnormal diffusion
+  model in use stipulates arbitrary direction and some displacement at each step
+  steps added euclideanly
+  end result is vector distance should vanish, but root mean square distance does not
+  4.3.2 discussing the implementation in list 4.1
+  a number of things to do along the way to analyzing the random walk
+
+04.4: extension: protein folding and self-avoiding random walks----- p79
+  protein folding briefly described
+  a crude simulation method described
+04.5: spontaneous decay (problem) ----- p80
+  decay rate problem outlined
+  some description of decay probability is gone into for countable numbers of particles
+  continuous limit discussed
+  outlined psudeocode for the decay rate problem
+04.6: decay implementation and visualization ----- p84
+  checklist of things for project
+
+
