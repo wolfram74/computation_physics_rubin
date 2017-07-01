@@ -1,10 +1,91 @@
-chapter 07: ()
-07.1: -----
-07.2: -----
-07.3: -----
-07.4: -----
-07.5: -----
-07.6: -----
-07.7: -----
-problems
-07.00, 07.00, 07.00, [,,]
+chapter 07: Trial and error searching and data fitting p 141
+07.1: problem 1: A search for quantum states in a box ----- p141
+07.2: algorithm: Trial and error roots via bisection ----- p142
+07.3: improved algorithm: newton-Raphson searching ----- p145
+07.4: problem 2 temperature dependence of magnetization ----- p148
+07.5: problem 3 fitting an experimental spectrum ----- p150
+07.6: problem 4 fitting exponential decay----- p156
+07.7: least squares fitting (theory) ----- p158
+07.8: exercises: fitting exponential decay, heat flow and Hubble's law----- p162
+
+
+chapter 07: Trial and error searching and data fitting p 141
+broad strokes justification for trial-searching for solutions.
+
+07.1: problem 1: A search for quantum states in a box ----- p141
+trial and error search programs are compared with experiments as enough decision making is taking place by the computer that the programmer has a hard time predicting the outcome
+the finite square well of width 2a is described
+analytic solutions fiated, questions described in square_well.py
+
+07.2: algorithm: Trial and error roots via bisection ----- p142
+finding input values for functions that output 0
+taking guess, choosing next guess based on results of prior guess
+bisection needs some interval overwhich the 0 is definitely included and narrows down until found
+first interval is halved into two intervals, one will maintain the invariant, recurse over that one
+7.2.1
+  things related to square_well.py
+
+07.3: improved algorithm: newton-Raphson searching ----- p145
+using first derivatives just solve slope-intercept of a line a few times until happy.
+is it important that the step size you use for numerical derivatives be smaller than the tolerances of your zero?
+7.3.1
+  possible misadventures include hitting a local extrema and being thrown into oblivion as well as closed loops
+  backtracking assumes the direction was correct, but the step size too large, and suggests using it when the function increases in output rather than decreases
+  this is hooey for say, decaying oscillators which go to 0 at infinite and also not infinite.
+7.3.2
+  more things to do with square_well.py
+
+
+
+07.4: problem 2 temperature dependence of magnetization ----- p148
+brief overview of spin interaction with magnetic fields
+some stat mech results cited
+the self referential nature of the equation pointed out
+repeated solving of m-tanh(m/t) produces m(t)
+7.4.1
+things to do for magnetization problem described in magnet.py
+
+07.5: problem 3 fitting an experimental spectrum ----- p150
+a table of scattering cross sections and their energies is provided
+a candidate function 7.21 for fitting is provided
+warning about global interpolations
+suggested to take n points and fit n-1 order polynomial to it
+lagrange formula 7.24 for general n-1 order polynomials given n points
+worked example
+higher order polynomial dangers
+7.5.1 assessment
+  description of problem done in scattering.py
+7.5.2 cubic splines
+splines fit points and also specified to have derivatives fit between segments
+continuous derivatives have numerous physical advantages
+various constraints are stated
+dealing with boundaries is discussed shallowly
+7.5.2.1 spline quadrature
+  when a function is tabulated by other parties and taken as fiat, spline fitting might be a good first step to integration
+  a sample code for doing spline interpolation and indicating it should be done for scattering.py
+
+07.6: problem 4 fitting exponential decay----- p156
+broad description of fitting exponential data problem
+brief description of model to fit
+
+07.7: least squares fitting (theory) ----- p158
+some key points of fitting data touched on
+  probably won't reproduce all data
+  bad models shouldn't fit data well
+  linear models have closed form procedures, otherwise guessing
+basic set up for least squares fitting described, distinguishing data from parameters
+chi square defined, parameters shift until chi square is minimized
+7.7.1 theory
+  criterion for a good fit, chi square approximates sample_count-parameter_count
+  linear least squares worked with a simple mx+b fit.
+  covariance defined
+  eq 7.52 purports to be a definition better suited to finite precision numbers compared with 7.47
+
+07.8: exercises: fitting exponential decay, heat flow and Hubble's law----- p162
+  descriptions for decay.py, heat.py and hubble.py
+7.8.1 linear quadratic fit
+  defining when a parameter is linear even if associated with non-linear term
+  nonlinear.py problems
+7.8.2
+  nonlinear parameter fitting described using the techniques in chapter 6
+
