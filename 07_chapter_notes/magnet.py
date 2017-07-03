@@ -13,7 +13,7 @@ treat t as a constant, find zeros
 '''
 
 def magnetization(t=0.5):
-    return (lambda m: m-numpy.tanh(m/t))
+    return (lambda m: numpy.tanh(m/t)-m)
 
 def magnetization_plot():
     delta_t = 0.025
@@ -26,8 +26,9 @@ def magnetization_plot():
         if reduced_mag(.01)<0:
             break
         t_vals.append(t)
-        m_vals.append(finders.raphson(reduced_mag, 3.0, threshold=10**-6))
+        m_vals.append(finders.newton_raphson(reduced_mag, 3.0, threshold=10**-6))
     pyplot.plot(t_vals, m_vals)
+    pyplot.ylim((0,1.5))
     pyplot.show()
 
 
