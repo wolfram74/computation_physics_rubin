@@ -1,9 +1,11 @@
 import numpy
 from matplotlib import pyplot
+from finders import bisection, newton_raphson
 '''
 page 142
 '''
 
+'''
 def bisection(func, bounds=[0.0,1.0], threshold=(10**-4), delta = 10.0):
     if func(bounds[0])*func(bounds[1]) > 0:
         return False
@@ -25,6 +27,7 @@ def newton_raphson(func, guess, threshold=(10**-4)):
     fprime = (func(guess+threshold)-func(guess))/threshold
     new_guess = guess - func(guess)/fprime
     return newton_raphson(func, new_guess, threshold)
+'''
 
 def bound_states(V_0 = 10.0):
     # even = (lambda E: (V_0-E)**.5*numpy.tan((V_0-E)**.5)-(E)**.5)
@@ -49,8 +52,8 @@ def bound_states(V_0 = 10.0):
     newt_odd = []
     for E_guess in numpy.linspace(0, V_0, int(V_0)/step):
         if even(E_guess)*even(E_guess+step) < 0:
-            even_states.append(bisection(even, [E_guess, E_guess+step], threshold=10**-7))
-            newt_even.append(newton_raphson(even, E_guess, threshold=10**-7))
+            even_states.append(bisection(even, [E_guess, E_guess+step], threshold=10**-6))
+            newt_even.append(newton_raphson(even, E_guess, threshold=10**-6))
         if odd(E_guess)*odd(E_guess+step) < 0:
             odd_states.append(bisection(odd, [E_guess, E_guess+step], threshold=10**-7))
             newt_odd.append(newton_raphson(odd, E_guess, threshold=10**-7))
@@ -70,8 +73,8 @@ def bound_states(V_0 = 10.0):
     # pyplot.show()
 
 
-bound_states(10)
+# bound_states(10)
 # bound_states(20.0)
-# bound_states(30.0)
+bound_states(30.0)
 # bound_states(300.0)
 # bound_states(2400.0)
