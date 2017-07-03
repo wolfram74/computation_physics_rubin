@@ -15,6 +15,23 @@ treat t as a constant, find zeros
 def magnetization(t=0.5):
     return (lambda m: m-numpy.tanh(m/t))
 
+def magnetization_plot():
+    delta_t = 0.025
+    t = 0.0
+    t_vals = []
+    m_vals = []
+    while True:
+        t += delta_t
+        reduced_mag = magnetization(t)
+        if reduced_mag(.01)<0:
+            break
+        t_vals.append(t)
+        m_vals.append(finders.raphson(reduced_mag, 3.0, threshold=10**-6))
+    pyplot.plot(t_vals, m_vals)
+    pyplot.show()
+
+
+
 def main():
     reduced_mag = magnetization()
     bisection_result = finders.bisection(reduced_mag, [0.2,5.0], threshold=10**-9)
@@ -34,6 +51,7 @@ def main():
     print('bisection took on average %.5f per calc' % average_bisect )
     print('newton raphson took on average %.5f per calc' % average_newt)
     print('in this case newton was %2.3f times faster' % (average_bisect/average_newt))
+    magnetization_plot()
 
 
 if __name__ == '__main__':
