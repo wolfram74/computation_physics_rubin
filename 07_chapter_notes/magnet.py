@@ -1,6 +1,7 @@
 import finders
 from matplotlib import pyplot
 import numpy
+import time
 
 '''
 eq 7.20 = m-tanh(m/t)
@@ -18,7 +19,21 @@ def main():
     reduced_mag = magnetization()
     bisection_result = finders.bisection(reduced_mag, [0.2,5.0], threshold=10**-9)
     newt_result = finders.newton_raphson(reduced_mag, 3.0, threshold=10**-9)
-    print(bisection_result, newt_result)
+    print(bisection_result, newt_result, (bisection_result-newt_result)/newt_result)
+    loops = 10**3
+    bisect_start = time.time()
+    for loop in range(loops):
+        bisection_result = finders.bisection(reduced_mag, [0.2,5.0], threshold=10**-9)
+    bisect_end = time.time()
+    average_bisect = (bisect_end-bisect_start)/loops
+    newt_start = time.time()
+    for loop in range(loops):
+        newt_result = finders.newton_raphson(reduced_mag, 3.0, threshold=10**-9)
+    newt_end = time.time()
+    average_newt = (newt_end-newt_start)/loops
+    print('bisection took on average %.5f per calc' % average_bisect )
+    print('newton raphson took on average %.5f per calc' % average_newt)
+    print('in this case newton was %2.3f times faster' % (average_bisect/average_newt))
 
 
 if __name__ == '__main__':
