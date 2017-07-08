@@ -24,6 +24,7 @@ def lagrange_interp(x_vals, y_vals):
 
 def cubic_spline(x_vals, y_vals):
     #referencing this https://www.math.ntnu.no/emner/TMA4215/2008h/cubicsplines.pdf
+    #and also https://en.wikipedia.org/wiki/Spline_(mathematics)#Algorithm_for_computing_natural_cubic_splines
     delx_vals = []
     dely_vals = []
     slope_vals = []
@@ -31,23 +32,27 @@ def cubic_spline(x_vals, y_vals):
         delx_vals.append(x_vals[index+1]-x_vals[index])
         dely_vals.append(y_vals[index+1]-y_vals[index])
         slope_vals.append(float(dely_vals[-1])/float(delx_vals[-1]))
+    print('delx', delx_vals[0:5])
+    print('slopes', slope_vals[0:5])
     v_vals = []
     u_vals = []
     for index in range(1, len(slope_vals)):
         v_vals.append(2*(delx_vals[index]+delx_vals[index-1]))
         u_vals.append(6*(slope_vals[index]-slope_vals[index-1]))
-    print(v_vals[0:5])
+    print('v', v_vals[0:5])
+    print('u', u_vals[0:5])
     matrix = numpy.zeros((len(v_vals),len(v_vals)))
     matrix[0][0] = v_vals[0]
     for index in range(1, len(v_vals)):
         matrix[index][index] = v_vals[index]
-        matrix[index-1][index] = delx_vals[index]
-        matrix[index][index-1] = delx_vals[index] #candidate for fuckery
-
+        matrix[index-1][index] = delx_vals[index-1]
+        matrix[index][index-1] = delx_vals[index-1] #candidate for fuckery
+    if len(v_vals) <5:
+        print(matrix)
     z_vals = numpy.linalg.solve(matrix, numpy.array(u_vals))
     z_vals = numpy.append(z_vals, 0)
     z_vals = numpy.insert(z_vals, 0, 0)
-    print(z_vals[0:5])
+    print('z', z_vals[0:5])
     interval_funcs = cubic_intervals(z_vals, x_vals, y_vals, delx_vals)
     print(len(interval_funcs))
     print(interval_funcs[0](0.5))
@@ -60,12 +65,21 @@ def cubic_spline(x_vals, y_vals):
         index = 0
 
         while True:
-            if x_in <= x_vals[index+1] and x_in > x_vals[index]:
+            if x_in <= x_vals[index+1] and x_in >= x_vals[index]:
                 break
             index+=1
         # print(index)
-        # print(x_in,  x_vals[index])
-        return interval_funcs[index](x_in)
+        # print(x_vals[index], x_in, x_vals[index+1])
+        a = z_vals[index+1]/(6.0*delx_vals[index])
+        b = z_vals[index]/(6.0*delx_vals[index])
+        c = y_vals[index+1]/delx_vals[index]-a
+        d = y_vals[index]/delx_vals[index]-b
+        print([a,b,c,d])
+        result = (a*(x_in-x_vals[index])**3
+                    +b*(x_vals[index+1]-x_in)**3
+                    +c*(x_in-x_vals[index])
+                    +d*(x_vals[index+1]-x_in))
+        return result
     return interpolator
 
 def cubic_intervals(z_vals, x_vals, y_vals, delx_vals):
@@ -131,6 +145,9 @@ def main():
     for value in smooth_energy:
         cubic_interp.append(cubic_sol(value, energy))
     # cubic_interp = numpy.vectorize(cubic_sol)(smooth_energy, energy)
+    test = cubic_spline([0.9, 1.3, 1.9, 2.1], [1.3, 1.5, 1.85, 2.1])
+    test(.91, [0.9, 1.3, 1.9, 2.1])
+    test(1.31, [0.9, 1.3, 1.9, 2.1])
     pyplot.plot(smooth_energy, cubic_interp)
     # pyplot.show()
     return
