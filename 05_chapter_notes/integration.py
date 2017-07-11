@@ -298,10 +298,12 @@ def p516_6():
     pyplot.show()
     return
 
-error_comparisons()
-# print(gaussian_leg((lambda y: numpy.exp(-y)), 4, (0,1)))
-# p516_1()
-# p516_3()
-# p516_4()
-# p516_5()
-# p516_6()
+if __name__ == '__main__':
+    error_comparisons()
+    # print(gaussian_leg((lambda y: numpy.exp(-y)), 4, (0,1)))
+    # p516_1()
+    # p516_3()
+    # p516_4()
+    # p516_5()
+    # p516_6()
+

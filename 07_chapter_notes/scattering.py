@@ -42,8 +42,6 @@ def cubic_spline(x_vals, y_vals):
                     -dely_vals[index-1]/delx_vals[index-1]
                     )
                 )
-    print('delx', delx_vals[0:5])
-    print('alpha', alpha_vals[0:5])
     c_vals = numpy.zeros(point_count)
     b_vals = numpy.zeros(point_count)
     d_vals = numpy.zeros(point_count)
@@ -55,7 +53,6 @@ def cubic_spline(x_vals, y_vals):
         l_vals[index] = 2*(x_vals[index+1]-x_vals[index-1])-delx_vals[index-1]*u_vals[index-1]
         u_vals[index] = delx_vals[index]/l_vals[index]
         z_vals[index] = (alpha_vals[index]-delx_vals[index-1]*z_vals[index-1])/l_vals[index]
-    print('z', z_vals[0:5])
     l_vals[-1]=1.0
     for index in range(point_count-2, -1, -1):
         c_vals[index] = z_vals[index]-u_vals[index]*c_vals[index+1]
@@ -64,7 +61,6 @@ def cubic_spline(x_vals, y_vals):
             - delx_vals[index]*(c_vals[index+1]+2*c_vals[index])/3.0
             )
         d_vals[index] = (c_vals[index+1]-c_vals[index])/(3*delx_vals[index])
-    print('last cs', c_vals[-5:])
 
 
     def interpolator(x_in, x_vals):
@@ -133,15 +129,10 @@ def main():
     pyplot.scatter(energy, cross_section)
     pyplot.plot(smooth_energy, interpolated)
 
-    # cubic_sol = interp1d(energy, cross_section, kind='cubic')
     cubic_sol = cubic_spline(energy, cross_section)
     cubic_interp = []
     for value in smooth_energy:
         cubic_interp.append(cubic_sol(value, energy))
-    # cubic_interp = numpy.vectorize(cubic_sol)(smooth_energy, energy)
-    # test = cubic_spline([0.9, 1.3, 1.9, 2.1], [1.3, 1.5, 1.85, 2.1])
-    # test(.91, [0.9, 1.3, 1.9, 2.1])
-    # test(1.31, [0.9, 1.3, 1.9, 2.1])
     pyplot.plot(smooth_energy, cubic_interp)
     pyplot.show()
     return

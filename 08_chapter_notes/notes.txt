@@ -1,10 +1,76 @@
-chapter 08: ()
-08.1: -----
-08.2: -----
-08.3: -----
-08.4: -----
-08.5: -----
-08.6: -----
-08.7: -----
-problems
-08.00, 08.00, 08.00, [,,]
+chapter 08: Solving Differential equations NonLinear Oscillations p171
+08.1: Free Nonlinear Oscillations ----- 171
+08.2: Nonlinear Oscillators (models) ----- 171
+08.3: Types of Differential equations (math) ----- 173
+08.4: Dynamic Form for ODEs (Theory) ----- 175
+08.5: ODE algorithms ----- 177
+08.6: Runge-Kutta Rule ----- 178
+08.7: Adams-Bashforth moulton predictor-corrector rule ----- 183
+08.8: Solution for nonlinear oscillations ----- 187
+08.9: extensions: nonlinear resonances, beats, friction ----- 189
+08.10: extenion: time-dependent forces ----- 190
+
+chapter 08: Solving Differential equations NonLinear Oscillations p171
+Numerical methods are rad because you can use them on anything, building up more complications in this chapter
+
+08.1: Free Nonlinear Oscillations ----- 171
+outlining the non harmonic oscillator and goals
+
+08.2: Nonlinear Oscillators (models) ----- 171
+standard sum of forces newton's second law deal
+distinguishing internal and external forces
+One exploration with a cubic deviation from harmonic potential
+discussion of different regimes,
+  close to 0, small effects
+  close to 1/a but less than, anharmonic effects
+  larger than 1/a no longer bound
+second exploration posits even-powered potential wells in general
+
+08.3: Types of Differential equations (math) ----- 173
+definition of Order for a DiffEQ
+  examples differentiating first order from higher order
+definitions of ordinary and partial
+  PDEs will be addressed in the last few chapters
+distinction between linear and non-linear
+  linear in differentials and function, may have non-linear independent terms
+initial and boundary conditions
+  discussing how initial conditions specify arbitrary constants
+  boundary conditions, in the context of physics problems, are constraints in space, can they exist in ODE's with just one dimension?
+
+
+08.4: Dynamic Form for ODEs (Theory) ----- 175
+A method for breaking up higher order equations into series of coupled first order equations is discussed
+worked explicitly for 2nd order newton's equation
+more explicitly referring to the symmetric non-ideal potential
+
+
+
+08.5: ODE algorithms ----- 177
+stepping slowly through time, some of the problems this produces
+dynamic time step algorithms alluded to
+8.5.1 euler's rule
+  basically first order differentiation in reverse
+  demands small step size, leads to high round off error, good for bootstrapping
+
+08.6: Runge-Kutta Rule ----- 178
+rk4 and rk45 are the gold standard, rk2 will be derived, the others just fiated
+taylor expand a hypothetical exact solution
+symmetry of expansion removes odd powers of integral
+a bit of chicken-egg problem arises in fractional time steps being needed
+suggested using euler to do the half step, then rk2 to do a full step
+application to the spring problem
+an implementation of rk4 is provided
+rk45 briefly described as procedurally testing larger step sizes to find optimal scale
+
+08.7: Adams-Bashforth moulton predictor-corrector rule ----- 183
+predictor corrector methods take data at multiple time steps
+possible typo on page 184, k vectors are recursively defined
+
+08.8: Solution for nonlinear oscillations ----- 187
+
+
+08.9: extensions: nonlinear resonances, beats, friction ----- 189
+
+
+08.10: extenion: time-dependent forces ----- 190
+
