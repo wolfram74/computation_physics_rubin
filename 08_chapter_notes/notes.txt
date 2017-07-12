@@ -65,12 +65,21 @@ rk45 briefly described as procedurally testing larger step sizes to find optimal
 08.7: Adams-Bashforth moulton predictor-corrector rule ----- 183
 predictor corrector methods take data at multiple time steps
 possible typo on page 184, k vectors are recursively defined
+8.7.1 comparison between rk2 rk4 and rk45
+  code in rk_comp.py
+
 
 08.8: Solution for nonlinear oscillations ----- 187
-
+  code in non_harmonic.py
 
 08.9: extensions: nonlinear resonances, beats, friction ----- 189
+broad outline of extra questions to examine
+8.9.1 friction
+  intro model of friction
+  some exercises described, worked in friction.py
+8.9.2 resonances and beats
+  resonance driving discussed
+  beating described
 
-
-08.10: extenion: time-dependent forces ----- 190
-
+08.10: extension: time-dependent forces ----- 190
+  code in driving.py
