@@ -50,12 +50,47 @@ def rk4(func_vec, init_vec, t_end, step_size = 0.1):
         k4 = numpy.array([])
         for index in range(len(curr_vec)):
             k4= numpy.append(k4, step_size*func_vec[index](curr_vec+k3))
-        ks = [k1, k2, k3, k4]
-        # if step_size > .1:
-        #     for k in ks:
-        #         print(k)
         path.append(path[-1]+((k1+2*k2+2*k3+k4)/6.0))
     return path
+
+def rk45(func_vec, init_vec, t_end, step_size = 0.1, precision=10**-6):
+    '''
+    takes in function list length n, init_vec length n+1 formatted like (t, variables)
+    returns array of vectors formated like init_vec indicating
+    '''
+    init_vec = numpy.array(init_vec)
+    path = [init_vec]
+    check_mode = False
+    guess = numpy.zeros(len(init_vec))
+    check = numpy.zeros(len(init_vec))
+    while path[-1][0] < t_end:
+        curr_vec = copy.copy(path[-1])
+        k1 = numpy.array([])
+        for index in range(len(curr_vec)):
+            k1= numpy.append(k1, step_size*func_vec[index](curr_vec))
+        k2 = numpy.array([])
+        for index in range(len(curr_vec)):
+            k2= numpy.append(k2, step_size*func_vec[index](curr_vec+k1/2))
+        k3 = numpy.array([])
+        for index in range(len(curr_vec)):
+            k3= numpy.append(k3, step_size*func_vec[index](curr_vec+k2/2))
+        k4 = numpy.array([])
+        for index in range(len(curr_vec)):
+            k4= numpy.append(k4, step_size*func_vec[index](curr_vec+k3))
+        if not check_mode:
+            guess = path[-1]+((k1+2*k2+2*k3+k4)/6.0)
+            step_size /= 2.0
+        else:
+            check = path[-1]+((k1+2*k2+2*k3+k4)/6.0)
+        if check_mode:
+            rel_diff = abs((guess[1]-check[1])/check[1])
+        if check_mode and rel_diff < precision:
+            # path.append(path[-1]+((k1+2*k2+2*k3+k4)/6.0))
+            path.append(guess)
+            step_size *= 2.0
+    return path
+
+
 
 def plot_paths(paths):
     #takes array of arrays of points formatted (t, x, v)
