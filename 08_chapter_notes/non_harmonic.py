@@ -4,7 +4,7 @@ Xverify numerical solutions produce max velocities at origin and 0 velocity at m
 Xdevise algorithm for calculating period
 explore shapes and periods for different powers and strength of asymmetry
 X~make some graphs of period as a function of amplitude: decided to do energy instead
-in a metastable well, find the energy that approaches the seperatrix
+X in a metastable well, find the energy that approaches the seperatrix
 stretch:
 calculate KE and PE, plot E over 50 periods
 plot relative error based on initial energy, aim for 11 digits of accuracy
@@ -12,6 +12,7 @@ numerically verify virial theorem
 '''
 
 import numpy
+import time
 from matplotlib import pyplot
 import rk_comp
 
@@ -110,15 +111,44 @@ def metastable_seperatrix():
         (lambda config: config[2]),
         (lambda config: -a*config[1]-b*config[1]**2.0)
     ]
-    # seperatrix = -a/b
-    seperatrix = -a/(2.*b)
-    starts = numpy.linspace(seperatrix*.01, seperatrix, 15)-seperatrix*.0001
+    print(-a/b)
+    seperatrix = -a/b
+    # seperatrix = -a/(2.*b)
+    starts = numpy.linspace(seperatrix*.01, seperatrix, 20)-seperatrix*.000001
     periods = []
     for x0 in starts:
         print(x0)
-        path = rk_comp.rk45(well_func, [0,-x0, 0], 20.0, precision=10**-5)
+        path = rk_comp.rk45(well_func, [0,x0, 0], 20.0, precision=10**-5)
         periods.append(period_finder(path))
     pyplot.plot(starts, periods)
+    pyplot.show()
+    return
+
+def energy_conservation_tester():
+    w0 = numpy.pi*2
+    sho_funcs = [
+        (lambda config: 1),
+        (lambda config: config[2]),
+        (lambda config: -config[1]*(w0)**2)
+    ]
+    x0 = 1.0
+    tfin = 50.0
+    start = time.time()
+    path = rk_comp.rk45(sho_funcs, [0, float(x0), 0], tfin, precision=10**-10)
+    end = time.time()
+    print(len(path), tfin/len(path))
+    print('took %.3f seconds' % (end-start))
+    times = map(lambda point: point[0], path)
+    potential = map(lambda point: (w0**2/2.)*point[1]**2, path)
+    kinetic = map(lambda point: point[2]**2/2, path)
+    total = numpy.array(potential)+numpy.array(kinetic)
+    # pyplot.plot(times, potential)
+    # pyplot.plot(times, kinetic)
+    # pyplot.plot(times, total)
+    error = abs(total-total[0])/total[0]
+    pyplot.plot(times, numpy.log10(error))
+    #-5 got about 4.8 digits, -6 got 5.9, -7 got 6.5, -8 got 7.7
+    #-9 got 8.3 digits -10 get 9.6 digit after 6 minutes
     pyplot.show()
     return
 
@@ -126,6 +156,7 @@ def main():
     # sho_tester()
     # period_vs_totalE()
     metastable_seperatrix()
+    # energy_conservation_tester()
     return
 
 if __name__ == '__main__':
