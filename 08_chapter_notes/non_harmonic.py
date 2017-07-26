@@ -103,9 +103,29 @@ def period_vs_totalE():
     pyplot.show()
     return
 
+def metastable_seperatrix():
+    a, b = 4.0, 3.0
+    well_func = [
+        (lambda config: 1),
+        (lambda config: config[2]),
+        (lambda config: -a*config[1]-b*config[1]**2.0)
+    ]
+    # seperatrix = -a/b
+    seperatrix = -a/(2.*b)
+    starts = numpy.linspace(seperatrix*.01, seperatrix, 15)-seperatrix*.0001
+    periods = []
+    for x0 in starts:
+        print(x0)
+        path = rk_comp.rk45(well_func, [0,-x0, 0], 20.0, precision=10**-5)
+        periods.append(period_finder(path))
+    pyplot.plot(starts, periods)
+    pyplot.show()
+    return
+
 def main():
     # sho_tester()
-    period_vs_totalE()
+    # period_vs_totalE()
+    metastable_seperatrix()
     return
 
 if __name__ == '__main__':

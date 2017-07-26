@@ -69,7 +69,7 @@ def rk45(func_vec, init_vec, t_end, step_size = 0.1, precision=10**-6):
     while path[-1][0] < t_end:
         if step_size < 10**-16:
             print('rk45 below machine threshold!!')
-            print(step_size)
+            print(step_size, path[-1])
         if check_mode != 2:
             curr_vec = copy.copy(path[-1])
         else:
