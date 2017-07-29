@@ -22,13 +22,54 @@ assertions about symmetry that seem too strong
   a bit of algebra and numerical filling out
 
 09.2: Algorithms: Eigenvalues via ODE solver + search ----- 195
+a method for finding wave functions and eigen values is described
+  specifying an outer bound to treat as infinity
+  solve the ODE the boundaries to some matching point independently from both sides with a guessed energy
+  using the disagreement between the two to guess at a better energy
+9.2.1 numerov algorithm for schroginder ODE
+  an alternative to rk4 is alluded to
+  eq9.12: basic square well is described
+  anti-symmetry of odd terms used to extra even terms
+  some substitutions progress to eq9.20
+9.2.2 implementation instructions
+  progression for square well exercise described in square_well.py
 
 09.3: explorations ----- 203
+  stretch activities listed in explorations.py
 
 09.4: problem: classical chaotic scattering ----- 203
+  some scattering processes seem to have internal state change as part of the process
+9.4.1 model
+  a kind of 4-peaked maxwellian potential is defined
+  initial velocity and impact parameter specified,
+  outgoing theta measured
+  eq9.23 gives a definition for experiments (and simulations)
+  eq9.24 gives a definition of cross section for theory
+  given certain potentials, very pathological cross sections can arise
+  gradient for sample potential taken care of
+  a maximum energy is derived
+9.4.2 implementation
+  my rk45 is still valid, especially the way I wrote it
+  take |PE|/KE <10**-10 as "infinity"
+  use arctan to get scattered angle out
+9.4.3 assessment
+  process described in scattering.py
 
 09.5: Problem: balls falling out of the sky ----- 208
+more realistic trajectories
 
 09.6: theory: projectile motion with drag ----- 208
+simple ballistics discussed
+analytic solution fiated
+friction introduced
+power based models described
+9.6.1 simultaneous second order ODEs
+  rk45 is still useful
+9.6.2 assessment
+  done this problem enough, not interested
+
 
 09.7: exercises: multi-body orbits and chaotic weather ----- 211
+simple description of 2 body gravitation discussed
+history recap of discovery of neptune
+simplification of orbits to determine level of impact neptune has on uranus
