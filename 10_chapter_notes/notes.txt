@@ -1,10 +1,71 @@
-chapter 10: ()
-10.1: -----
-10.2: -----
-10.3: -----
-10.4: -----
-10.5: -----
-10.6: -----
-10.7: -----
+chapter 10: High Performance Hardware and parallel computers() p215
+10.1: High performance computers ----- p215
+10.2: Memory Hierarchy ----- p216
+10.3: The central Processing Unit ----- 219
+10.4: CPU design: reduced instruction set processors----- 220
+10.5: CPU Design: Multiple-Core Processors ----- 221
+10.6: CPU Design: Vector processors ----- 222
+10.7: Introduction to Parallel Computing ----- 223
+10.8: Parallel semantics (theory) ----- 224
+10.9: Distributed Memory Programming ----- 226
+10.10: Parallel Performance ----- 227
+10.11: parallelization strategies ----- 230
+10.12: Practical aspects of MIMD message passing ----- 231
+10.13: Scalability ----- 236
+10.14: Data Parallelism and domain decomposition ----- 239
+10.15: Example the IBM blue gene supercomputers ----- 243
+10.16: Exascale computing via multinode-multicore GPUs ----- 245
 problems
 10.00, 10.00, 10.00, [,,]
+
+chapter 10: High Performance Hardware and parallel computers() p215
+
+
+10.1: High performance computers ----- p215
+
+
+10.2: Memory Hierarchy ----- p216
+
+
+10.3: The central Processing Unit ----- 219
+
+
+10.4: CPU design: reduced instruction set processors----- 220
+
+
+10.5: CPU Design: Multiple-Core Processors ----- 221
+
+
+10.6: CPU Design: Vector processors ----- 222
+
+
+10.7: Introduction to Parallel Computing ----- 223
+
+
+10.8: Parallel semantics (theory) ----- 224
+
+
+10.9: Distributed Memory Programming ----- 226
+
+
+10.10: Parallel Performance ----- 227
+
+
+10.11: parallelization strategies ----- 230
+
+
+10.12: Practical aspects of MIMD message passing ----- 231
+
+
+10.13: Scalability ----- 236
+
+
+10.14: Data Parallelism and domain decomposition ----- 239
+
+
+10.15: Example the IBM blue gene supercomputers ----- 243
+
+
+10.16: Exascale computing via multinode-multicore GPUs ----- 245
+
+
