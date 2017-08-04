@@ -32,12 +32,23 @@ def speed_up_check():
     print(n_out == p_out)
 
 def communicating_worker(pipe):
-    messge = random.random()
+    message = random.random()
     proc_id = multiprocessing.current_process().name
     print('proc %d made %f' % (proc_id, message))
+    pipe.send(message)
+    recieved = pipe.recv()
+    print('proc %d got %f' % (proc_id, recieved))
 
 def piping_test():
     print('ran')
+    processes = []
+    pipes = multiprocessing.Pipe(duplex=True)
+    for proc_id in range(2):
+        processes.append(multiprocessing.Process(
+            target=communicating_worker, args=(pipes[proc_id%2],),
+            name=(proc_id+1)
+            ))
+        processes[-1].start()
 
 if __name__ == '__main__':
     # speed_up_check()
