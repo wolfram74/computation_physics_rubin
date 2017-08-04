@@ -19,53 +19,112 @@ problems
 10.00, 10.00, 10.00, [,,]
 
 chapter 10: High Performance Hardware and parallel computers() p215
-
+HPC and parallel computing, specialist hardware will be common place before long
 
 10.1: High performance computers ----- p215
-
+supercomputer is a moving target.
+general definition of High performance computers features
+  pipelined functional units
+  multiple CPUS
+  multiple cores (distinction between CPU?)
+  fast central registers
+  large+fast memory
+  high throughput for functional units
+  parallelization specialized processors
+  orchestrating software
 
 10.2: Memory Hierarchy ----- p216
-
+talking about how data is stored basically on tape still
+row vs column major orders discussed
+a brief run down of the standard memory hierarchy
+  CPU > Cache (and Cache Lines) > RAM > Pages > Main Storage
+  virtual memory behaves like RAM except with regards to speed, as it's on main storage
+data accessibility impacts speed of execution.
+some discussion is gone over for how virtual memory extends options but costs time
+how virtual memory permits multi-tasking is brought up
 
 10.3: The central Processing Unit ----- 219
-
+brief discussion of prefetching and pipelining, much like the relevant episode of crash course computer science
 
 10.4: CPU design: reduced instruction set processors----- 220
-
+RISC (reduced instruction set computer) finally makes sense
 
 10.5: CPU Design: Multiple-Core Processors ----- 221
-
+multi-core chips have distinct communication advantages over multiple-chips of equal number of cores
 
 10.6: CPU Design: Vector processors ----- 222
-
+qualitative overview of vectorized processes
 
 10.7: Introduction to Parallel Computing ----- 223
-
+super broad overview of parallel computing, alluding to helpful compilers
 
 10.8: Parallel semantics (theory) ----- 224
-
+data dependency when an algorithm has a potential to write over it's own data as it goes
+data parallel when that is mitigated
+thinking about processors as nodes in a communication graph is one place to start
+single instruction, single data (SISD)
+single instruction, multiple data (SIMD) vector operations are like this
+multiple instruction multiple data (MIMD)
+granularity is discussed
+  coarse Grain
+    different programs on different computers with individual memory systems and a bit of cross talk
+  medium grain
+    different processers, maybe different programs sharing common memory with data transmitted over common communication channel.
+  fine grain
+    as fine as different parts of a for loop being run by different nodes
 
 10.9: Distributed Memory Programming ----- 226
-
+brief discussion on clusters and messaging methods
+the distinctions between scales of clusters while real, are not salient for this discussion
+message passing often consists of a distribute-compute-aggregate cycle
 
 10.10: Parallel Performance ----- 227
-
+amdahl's law, amdahl's law everywhere
+10.10.1 communication overhead
+  it's worse than amdahls's law, because of latency issues
+  considering communication costs complicates algorithm time estimates
 
 10.11: parallelization strategies ----- 230
-
+broad description of strategy for making a parallelized program
+avoid race conditions
+in the conflict between minimizing coordination costs and maintaining mathematical validity, the second is sacrosanct, the other is convenient.
 
 10.12: Practical aspects of MIMD message passing ----- 231
-
+fortran, C and MPI are languages of choice due to history
+while retrofitting is disadvised over green fielding in this one specific case, people tend to retrofit
+brief mention of costs associated with parallelism
+don't parallelize one offs, focus on stable, large, high resolution programs
+memory allocation considerations are now much more important
+perfectly parallel problems defined as problems with very little cross talk, or exploring an initial condition space and then only collecting final results
+fully synchronous involves many parts that are interacting
+loosely synchronous, oh look, it's a continuum and the distinctions are kind of meaningless
+pipeline Parallel
+  data in previous steps is significant in later steps.
+10.12.1 high level view of message passing
+  because everything's been so detail oriented up to now :p
+  4 key communication functions, send, receive (post and get), myid and numnodes
+  possible mishaps include: poorly divided up work, data mislabeled, confounding error messages, data being overwritten
+10.12.2 message passing example and exercises
+  trying to parallelize a monte carlo simulation
 
 10.13: Scalability ----- 236
-
+  mostly concerned with how does the problem get subdivided as it's total size grows
+  strong scaling: problem is CPU limited and double machines roughly halves times
+  weak scaling: problem has lots of communication problems and increased hardware also increases problem size
+  some of the examples of weak scaling are confusing, if you can give each node it's own data set, then having two nodes working on half of the data set would be faster than having 1 node working through both sets?
+  a recommended course for exploring parallelizing things is outlined, might see how hard it is to get pythons multi-processor module working
 
 10.14: Data Parallelism and domain decomposition ----- 239
-
+data and task parallelism discussed in brief
+spatial and temporal locality for minimizing page faults hinted at
+an example involving laplace's equations gone over
+borders between sub processes alluded to for paralllelization
+10.14.1
+  describes a series of steps to practice implementing multiple processes in laplace equation scenario
 
 10.15: Example the IBM blue gene supercomputers ----- 243
-
+broad overlay of networking and memory configuration of the Blue Gene series of super computers
 
 10.16: Exascale computing via multinode-multicore GPUs ----- 245
-
+barely even a mention of GPUs
 
