@@ -12,7 +12,7 @@ Design notes:
     child 1 row 0 and col -1 are BC's, col 0 is BF (reference NF), row -1 is BA (reference NA)
     child 2 row 0 and col 0 are BC's, row -1 is BF (reference NF), col -1 is BA (reference NA)
     child 3 row -1 and col 0 are BC's, col -1 is BF (reference NF), row 0 is BA (reference NA)
-    child 4 row -1 and col -1 are BC's, col 0 is BF (reference NF), col 0 is BA (reference NA)
+    child 4 row -1 and col -1 are BC's, row 0 is BF (reference NF), col 0 is BA (reference NA)
 child_solver will have as arguments
     space_quadrant
     aft_pipe
@@ -45,9 +45,29 @@ def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
     aft_pipe.send(proc_id)
     fore_id = fore_pipe.recv()
     aft_id = aft_pipe.recv()
+    bf_index = -1 if ((proc_id+1)%4)/2.0 > 1 else 0
+    ba_index = -1 if proc_id/2.0 < 1 else 0
     is_finished = False
     print("%d has %d fore and %d aft" % (proc_id, fore_id, aft_id))
     while not is_finished:
+        b_fore_aft = [[],[]]
+        if proc_id%2 ==1:
+            b_fore_aft[0] = [row[bf_index] for row in space] # extract col
+        else:
+            b_fore_aft[0] = space[bf_index] # extract row
+        if proc_id%2 ==0:
+            b_fore_aft[1] = [row[bf_index] for row in space] # extract col
+        else:
+            b_fore_aft[1] = space[bf_index] # extract row
+        fore_pipe.send(b_fore_aft[0])
+        aft_pipe.send(b_fore_aft[1])
+        n_fore_aft = [[],[]]
+        n_fore_aft[0] = fore_pipe.recv()
+        n_fore_aft[1] = aft_pipe.recv()
+        # if proc_id == 1: # checking if quadrant 1 and 2 are getting the right terms
+        #     print(n_fore_aft[0], proc_id)
+        # if proc_id == 2:
+        #     print(n_fore_aft[1], proc_id)
         parent_pipe.send(1)
         is_finished = parent_pipe.recv()
     parent_pipe.send((proc_id, space))
@@ -64,7 +84,7 @@ def parent_laplace():
     start_time = time.time()
     space_size = (10,10)
     threshold = 10**-4
-    max_loops = 10**4
+    max_loops = 10**1
     # v0 = (lambda x: 100.0)
     v0 = (lambda x: numpy.cos(numpy.pi*x/space_size[0]))
     space = numpy.zeros(space_size)
