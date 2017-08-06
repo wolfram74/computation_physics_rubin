@@ -55,7 +55,10 @@ def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
     return
 
 def stitch_together(set_of_spaces):
-    return "whatever"
+    sorted_spaces = sorted(set_of_spaces, key=(lambda space: space[0]))
+    top_half = numpy.hstack((sorted_spaces[1][1], sorted_spaces[0][1]))
+    bottom_half = numpy.hstack((sorted_spaces[2][1], sorted_spaces[3][1]))
+    return numpy.vstack((top_half, bottom_half))
 
 def parent_laplace():
     start_time = time.time()
@@ -123,6 +126,6 @@ def parent_laplace():
     # # pyplot.show()
     # pyplot.savefig("%d.png" % int(time.time()))
     end_time = time.time()
-    print('running time %f' % end_time-start_time)
+    print('running time %f' % (end_time-start_time))
 if __name__ == '__main__':
     parent_laplace()
