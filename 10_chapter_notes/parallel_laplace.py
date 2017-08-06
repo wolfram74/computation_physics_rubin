@@ -45,8 +45,11 @@ def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
     aft_pipe.send(proc_id)
     fore_id = fore_pipe.recv()
     aft_id = aft_pipe.recv()
-    loop = 0
+    is_finished = False
     print("%d has %d fore and %d aft" % (proc_id, fore_id, aft_id))
+    while not is_finished:
+        parent_pipe.send(1)
+        is_finished = parent_pipe.recv()
     parent_pipe.send((proc_id, space))
 
     return
@@ -55,8 +58,10 @@ def stitch_together(set_of_spaces):
     return "whatever"
 
 def parent_laplace():
+    start_time = time.time()
     space_size = (10,10)
     threshold = 10**-4
+    max_loops = 10**4
     # v0 = (lambda x: 100.0)
     v0 = (lambda x: numpy.cos(numpy.pi*x/space_size[0]))
     space = numpy.zeros(space_size)
@@ -70,7 +75,8 @@ def parent_laplace():
     processes = []
     child_control_pipes =[]
     loops = 0
-    delta = 1
+    is_finished = False
+    #processor set up
     for proc_index in range(4):
         control_pipe = multiprocessing.Pipe(duplex=True)
         processes.append(
@@ -87,6 +93,21 @@ def parent_laplace():
             )
         child_control_pipes.append(control_pipe[0])
         processes[-1].start()
+
+    #processor monitoring
+    while not is_finished:
+        loops+=1
+        max_deltas = []
+        for pipe in child_control_pipes:
+            max_deltas.append(pipe.recv())
+        is_finished = all( [num < threshold for num in max_deltas])
+        if loops > max_loops:
+            is_finished = True
+        if loops%10 == 0:
+            print(loops, max_deltas)
+        for pipe in child_control_pipes:
+            pipe.send(is_finished)
+
     print('donezo')
     results = [pipe.recv() for pipe in child_control_pipes]
     space = stitch_together(results)
@@ -101,6 +122,7 @@ def parent_laplace():
     # axes.imshow(space)
     # # pyplot.show()
     # pyplot.savefig("%d.png" % int(time.time()))
-
+    end_time = time.time()
+    print('running time %f' % end_time-start_time)
 if __name__ == '__main__':
     parent_laplace()
