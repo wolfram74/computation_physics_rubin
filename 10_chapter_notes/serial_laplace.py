@@ -35,6 +35,7 @@ def print_space(space):
         print(row)
 
 def main():
+    start_time = time.time()
     space_size = (100,100)
     # v0 = (lambda x: 100.0)
     v0 = (lambda x: numpy.cos(numpy.pi*x/space_size[0]))
@@ -42,20 +43,19 @@ def main():
     for x_index in range(space.shape[1]):
         space[0][x_index] = v0(x_index)
     loops = 0
-    # print_space(space)
     delta = 1
     while delta > 10**-4:
         space, delta = time_step(space)
         loops+=1
         if loops %10 == 0:
             print(loops, delta)
-    # print_space(space)
     print(loops)
     fig, axes = pyplot.subplots(1, 1)
     axes.imshow(space)
     # pyplot.show()
     pyplot.savefig("%d.png" % int(time.time()))
-
+    end_time = time.time()
+    print(end_time-start_time)
 
 if __name__ == '__main__':
     main()
