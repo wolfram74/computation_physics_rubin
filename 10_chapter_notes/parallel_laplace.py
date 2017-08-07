@@ -82,7 +82,7 @@ def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
                     space_p1[y_index][x_index]= space[y_index][x_index]
                     continue
                 #account for bulk tiles
-                if y_index not in (0, y_max) or x_index not in (0, x_max):
+                if y_index not in (0, y_max) and x_index not in (0, x_max):
                     space_p1[y_index][x_index] = .25*(
                         space[y_index+1][x_index] +
                         space[y_index][x_index+1] +
@@ -208,8 +208,8 @@ def parent_laplace():
     space_size = (10,10)
     threshold = 10**-4
     max_loops = 10**1
-    # v0 = (lambda x: 100.0)
-    v0 = (lambda x: numpy.cos(numpy.pi*x/space_size[0]))
+    v0 = (lambda x: 100.0)
+    # v0 = (lambda x: numpy.cos(numpy.pi*x/space_size[0]))
     space = numpy.zeros(space_size)
     for x_index in range(space.shape[1]):
         space[0][x_index] = v0(x_index)
