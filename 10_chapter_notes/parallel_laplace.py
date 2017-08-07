@@ -38,6 +38,7 @@ syntax notes:
 import numpy
 import multiprocessing
 import time
+from matplotlib import pyplot
 
 def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
     proc_id = multiprocessing.current_process().name
@@ -47,10 +48,11 @@ def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
     aft_pipe.send(proc_id)
     fore_id = fore_pipe.recv()
     aft_id = aft_pipe.recv()
-    bf_index = -1 if ((proc_id+1)%4)/2.0 > 1 else 0
-    ba_index = -1 if proc_id/2.0 < 1 else 0
+    bf_index = -1 if (proc_id%4)/2.0 >= 1 else 0
+    ba_index = -1 if (proc_id-1)/2.0 < 1 else 0
     is_finished = False
     print("%d has %d fore and %d aft" % (proc_id, fore_id, aft_id))
+    print("%d has %d fore and %d aft" % (proc_id, bf_index, ba_index))
     while not is_finished:
         b_fore_aft = [[],[]]
         if proc_id%2 ==1:
@@ -58,14 +60,16 @@ def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
         else:
             b_fore_aft[0] = space[bf_index] # extract row
         if proc_id%2 ==0:
-            b_fore_aft[1] = [row[bf_index] for row in space] # extract col
+            b_fore_aft[1] = [row[ba_index] for row in space] # extract col
         else:
-            b_fore_aft[1] = space[bf_index] # extract row
+            b_fore_aft[1] = space[ba_index] # extract row
         fore_pipe.send(b_fore_aft[0])
         aft_pipe.send(b_fore_aft[1])
         n_fore_aft = [[],[]]
         n_fore_aft[0] = fore_pipe.recv()
         n_fore_aft[1] = aft_pipe.recv()
+        # print(proc_id, b_fore_aft)
+        # print(proc_id, n_fore_aft)
         space_p1 = numpy.zeros(space.shape)
         # if proc_id == 1: # checking if quadrant 1 and 2 are getting the right terms
         #     print(n_fore_aft[0], proc_id)
@@ -188,7 +192,7 @@ def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
                 else:
                     delta = space_p1[y_index][x_index]
                 if delta > biggest_delta:
-                    biggest = delta
+                    biggest_delta = delta
 
         parent_pipe.send(biggest_delta)
         is_finished = parent_pipe.recv()
@@ -203,11 +207,21 @@ def stitch_together(set_of_spaces):
     bottom_half = numpy.hstack((sorted_spaces[2][1], sorted_spaces[3][1]))
     return numpy.vstack((top_half, bottom_half))
 
+def print_space(space):
+    for row in space:
+        print('-'.join(["%03.f" % num for num in row]))
+
+def draw_space(space):
+    fig, axes = pyplot.subplots(1, 1)
+    axes.imshow(space)
+    # pyplot.show()
+    pyplot.savefig("%d.png" % int(time.time()))
+
 def parent_laplace():
     start_time = time.time()
-    space_size = (10,10)
+    space_size = (100,100)
     threshold = 10**-4
-    max_loops = 10**1
+    max_loops = 10**4
     v0 = (lambda x: 100.0)
     # v0 = (lambda x: numpy.cos(numpy.pi*x/space_size[0]))
     space = numpy.zeros(space_size)
@@ -257,18 +271,10 @@ def parent_laplace():
     print('donezo')
     results = [pipe.recv() for pipe in child_control_pipes]
     space = stitch_together(results)
-    print(space)
-    # while delta > threshold:
-    #     space, delta = time_step(space)
-    #     loops+=1
-    #     if loops %10 == 0:
-    #         print(loops, delta)
-    # print(loops)
-    # fig, axes = pyplot.subplots(1, 1)
-    # axes.imshow(space)
-    # # pyplot.show()
-    # pyplot.savefig("%d.png" % int(time.time()))
+    # print_space(space)
+    draw_space(space)
     end_time = time.time()
+    print(loops)
     print('running time %f' % (end_time-start_time))
 if __name__ == '__main__':
     parent_laplace()
@@ -276,4 +282,12 @@ if __name__ == '__main__':
 '''
 timing observations:
     when children do nothing and goes through 1E4 loops as fast as possible, takes a bout .4 seconds or 40 micro seconds per cycle of communication
+serial laplace with constant edge at 10x10 takes 120 loops ~0.27 seconds
+    same but 100x100 take 6085 loops ~ 208.60 seconds
+parallel laplace with constant edge at 10x10 takes 124 loops ~.28 seconds
+    100x100 took 6085 cyclesand about ~72.8 seconds
+
+rewrite ideas:
+    rotate pre-processing approach, rotate each sub-space so they're oriented the same, then instead of having 4-sets of logic for the unique cases, it'd be one set of logic that works on each.
+    class based approach, each node is given it's \pm x or y pipes, or defineds whether or not those are BC's and on the update cycle, figure out if each neighbor is part of the bulk or a neighbors, then use those temp stored values instead of doing it in one swoop. Use getter and setter methods so it's amenable to testing.
 '''

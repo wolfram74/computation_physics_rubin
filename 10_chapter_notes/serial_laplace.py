@@ -37,8 +37,8 @@ def print_space(space):
 def main():
     start_time = time.time()
     space_size = (100,100)
-    # v0 = (lambda x: 100.0)
-    v0 = (lambda x: numpy.cos(numpy.pi*x/space_size[0]))
+    v0 = (lambda x: 100.0)
+    # v0 = (lambda x: numpy.cos(numpy.pi*x/space_size[0]))
     space = numpy.zeros(space_size)
     for x_index in range(space.shape[1]):
         space[0][x_index] = v0(x_index)
