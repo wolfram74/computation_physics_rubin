@@ -41,6 +41,8 @@ import time
 
 def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
     proc_id = multiprocessing.current_process().name
+    x_max = space.shape[1]-1
+    y_max = space.shape[0]-1
     fore_pipe.send(proc_id)
     aft_pipe.send(proc_id)
     fore_id = fore_pipe.recv()
@@ -64,12 +66,133 @@ def child_laplace(space, fore_pipe, aft_pipe, parent_pipe):
         n_fore_aft = [[],[]]
         n_fore_aft[0] = fore_pipe.recv()
         n_fore_aft[1] = aft_pipe.recv()
+        space_p1 = numpy.zeros(space.shape)
         # if proc_id == 1: # checking if quadrant 1 and 2 are getting the right terms
         #     print(n_fore_aft[0], proc_id)
         # if proc_id == 2:
         #     print(n_fore_aft[1], proc_id)
-        parent_pipe.send(1)
+        biggest_delta = 0.0
+        for y_index in range(space.shape[0]):
+            for x_index in range(space.shape[1]):
+                #account for boundary conditions
+                if y_index == (0, y_max)[int((proc_id-1)/2.0)]:
+                    space_p1[y_index][x_index]= space[y_index][x_index]
+                    continue
+                if x_index == (x_max, 0)[int((proc_id)%4/2.0)]:
+                    space_p1[y_index][x_index]= space[y_index][x_index]
+                    continue
+                #account for bulk tiles
+                if y_index not in (0, y_max) or x_index not in (0, x_max):
+                    space_p1[y_index][x_index] = .25*(
+                        space[y_index+1][x_index] +
+                        space[y_index][x_index+1] +
+                        space[y_index-1][x_index] +
+                        space[y_index][x_index-1]
+                        )
+                #account for fringes
+                else:
+                    if proc_id==1:
+                        if x_index == 0  and y_index == y_max:
+                            space_p1[y_index][x_index] = .25*(
+                                n_fore_aft[1][x_index] +
+                                space[y_index][x_index+1] +
+                                space[y_index-1][x_index] +
+                                n_fore_aft[0][y_index]
+                                )
+                        elif x_index == 0:
+                            space_p1[y_index][x_index] = .25*(
+                                space[y_index+1][x_index] +
+                                space[y_index][x_index+1] +
+                                space[y_index-1][x_index] +
+                                n_fore_aft[0][y_index]
+                                )
+                        elif y_index == y_max:
+                            space_p1[y_index][x_index] = .25*(
+                                n_fore_aft[1][x_index] +
+                                space[y_index][x_index+1] +
+                                space[y_index-1][x_index] +
+                                space[y_index][x_index-1]
+                                )
+                    if proc_id==2:
+                        if x_index == x_max  and y_index == y_max:
+                            space_p1[y_index][x_index] = .25*(
+                                n_fore_aft[0][x_index] +
+                                n_fore_aft[1][y_index] +
+                                space[y_index-1][x_index] +
+                                space[y_index][x_index-1]
+                                )
+                        elif x_index == x_max:
+                            space_p1[y_index][x_index] = .25*(
+                                space[y_index+1][x_index] +
+                                n_fore_aft[1][y_index] +
+                                space[y_index-1][x_index] +
+                                space[y_index][x_index-1]
+                                )
+                        elif y_index == y_max:
+                            space_p1[y_index][x_index] = .25*(
+                                n_fore_aft[0][x_index] +
+                                space[y_index][x_index+1] +
+                                space[y_index-1][x_index] +
+                                space[y_index][x_index-1]
+                                )
+                    if proc_id==3:
+                        if x_index == x_max  and y_index == 0:
+                            space_p1[y_index][x_index] = .25*(
+                                space[y_index+1][x_index] +
+                                n_fore_aft[0][y_index] +
+                                n_fore_aft[1][x_index] +
+                                space[y_index][x_index-1]
+                                )
+                        elif x_index == x_max:
+                            space_p1[y_index][x_index] = .25*(
+                                space[y_index+1][x_index] +
+                                n_fore_aft[0][y_index] +
+                                space[y_index-1][x_index] +
+                                space[y_index][x_index-1]
+                                )
+                        elif y_index == 0:
+                            space_p1[y_index][x_index] = .25*(
+                                space[y_index+1][x_index] +
+                                space[y_index][x_index+1] +
+                                n_fore_aft[1][x_index] +
+                                space[y_index][x_index-1]
+                                )
+                    if proc_id==4:
+                        if x_index == 0  and y_index == 0:
+                            space_p1[y_index][x_index] = .25*(
+                                space[y_index+1][x_index] +
+                                space[y_index][x_index+1] +
+                                n_fore_aft[0][x_index] +
+                                n_fore_aft[1][y_index]
+                                )
+                        elif x_index == 0:
+                            space_p1[y_index][x_index] = .25*(
+                                space[y_index+1][x_index] +
+                                space[y_index][x_index+1] +
+                                space[y_index-1][x_index] +
+                                n_fore_aft[1][y_index]
+                                )
+                        elif y_index == 0:
+                            space_p1[y_index][x_index] = .25*(
+                                space[y_index+1][x_index] +
+                                space[y_index][x_index+1] +
+                                n_fore_aft[0][x_index] +
+                                space[y_index][x_index-1]
+                                )
+                #fucking fringes
+                if space[y_index][x_index]!=0:
+                    delta = (
+                        space_p1[y_index][x_index]
+                        - space[y_index][x_index]
+                        )/space[y_index][x_index]
+                else:
+                    delta = space_p1[y_index][x_index]
+                if delta > biggest_delta:
+                    biggest = delta
+
+        parent_pipe.send(biggest_delta)
         is_finished = parent_pipe.recv()
+        space = space_p1
     parent_pipe.send((proc_id, space))
 
     return
@@ -149,3 +272,8 @@ def parent_laplace():
     print('running time %f' % (end_time-start_time))
 if __name__ == '__main__':
     parent_laplace()
+
+'''
+timing observations:
+    when children do nothing and goes through 1E4 loops as fast as possible, takes a bout .4 seconds or 40 micro seconds per cycle of communication
+'''
